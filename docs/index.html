@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WAS Network Documentation</title>
+  <style>
+    /* Sacred terminal inspired styling */
+    :root {
+      --background: #000000;
+      --foreground: #ffffff;
+      --secondary: #757575;
+      --accent: #aaaaaa;
+      --spacing: 16px;
+      --radius: 2px;
+      --dark-border: 1px solid #333;
+      --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-mono);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    
+    a {
+      color: var(--foreground);
+      text-decoration: none;
+      border-bottom: 1px solid var(--foreground);
+      transition: opacity 0.2s ease;
+    }
+
+    a:hover {
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--spacing);
+    }
+
+    .header {
+      padding: calc(var(--spacing) * 2) 0;
+      border-bottom: var(--dark-border);
+      margin-bottom: calc(var(--spacing) * 2);
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: normal;
+      letter-spacing: 1px;
+    }
+    
+    .nav {
+      display: flex;
+      justify-content: center;
+      padding: calc(var(--spacing)) 0;
+      border-bottom: var(--dark-border);
+    }
+    
+    .nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav li {
+      margin: 0 var(--spacing);
+    }
+    
+    .nav a {
+      color: var(--foreground);
+      border-bottom: none;
+    }
+    
+    .nav a:hover {
+      opacity: 0.7;
+    }
+    
+    .content {
+      display: flex;
+      padding: var(--spacing) 0;
+    }
+    
+    .sidebar {
+      width: 25%;
+      padding-right: calc(var(--spacing) * 2);
+    }
+    
+    .sidebar h3 {
+      font-size: 1rem;
+      margin-bottom: calc(var(--spacing));
+      padding-bottom: calc(var(--spacing) / 2);
+      border-bottom: var(--dark-border);
+      font-weight: normal;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      margin-bottom: calc(var(--spacing) * 2);
+    }
+    
+    .sidebar li {
+      margin-bottom: calc(var(--spacing) / 2);
+    }
+    
+    .sidebar a {
+      border-bottom: none;
+      font-size: 0.9rem;
+    }
+    
+    .main-content {
+      width: 75%;
+    }
+    
+    .section {
+      margin-bottom: calc(var(--spacing) * 2.5);
+    }
+    
+    .section h2 {
+      font-size: 1.1rem;
+      margin-bottom: calc(var(--spacing));
+      padding-bottom: calc(var(--spacing) / 2);
+      border-bottom: var(--dark-border);
+      font-weight: normal;
+    }
+    
+    .section h3 {
+      font-size: 1rem;
+      margin: calc(var(--spacing)) 0;
+      font-weight: normal;
+      color: var(--accent);
+    }
+    
+    .section p {
+      margin-bottom: var(--spacing);
+      font-size: 0.9rem;
+      color: var(--secondary);
+    }
+    
+    code {
+      font-family: var(--font-mono);
+      background-color: #111111;
+      padding: 2px 4px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+    }
+    
+    pre {
+      font-family: var(--font-mono);
+      background-color: #111111;
+      padding: var(--spacing);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: var(--spacing);
+      font-size: 0.85rem;
+      border: var(--dark-border);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: calc(var(--spacing) * 1.5);
+      font-size: 0.85rem;
+    }
+    
+    table th, table td {
+      border: var(--dark-border);
+      padding: calc(var(--spacing) / 2) var(--spacing);
+      text-align: left;
+    }
+    
+    table th {
+      background-color: #111111;
+    }
+    
+    table tr:nth-child(even) {
+      background-color: #0a0a0a;
+    }
+
+    /* Preserve list styling */
+    ul, ol {
+      padding-left: calc(var(--spacing) * 1.5);
+      margin-bottom: var(--spacing);
+      color: var(--secondary);
+      font-size: 0.9rem;
+    }
+
+    li {
+      margin-bottom: calc(var(--spacing) / 3);
+    }
+
+    strong {
+      color: var(--foreground);
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>DOCUMENTATION</h1>
+    </div>
+    
+    <div class="nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#monitoring">Monitoring</a></li>
+        <li><a href="#infrastructure">Infrastructure</a></li>
+        <li><a href="#mesh">Service Mesh</a></li>
+      </ul>
+    </div>
+    
+    <div class="content">
+      <div class="sidebar">
+        <h3>WAS Network</h3>
+        <ul>
+          <li><a href="#overview">Network Overview</a></li>
+          <li><a href="#monitoring">Monitoring Stack</a></li>
+          <li><a href="#infrastructure">Infrastructure-as-Code</a></li>
+          <li><a href="#mesh">Service Mesh</a></li>
+          <li><a href="#security">Security Practices</a></li>
+          <li><a href="#storage">Storage Core</a></li>
+          <li><a href="#dr">Disaster Recovery</a></li>
+        </ul>
+        
+        <h3>Related Domains</h3>
+        <ul>
+          <li><a href="/foundation">was.foundation</a></li>
+          <li><a href="/tools">was.tools</a></li>
+          <li><a href="/ngo">was.ngo.ong</a></li>
+        </ul>
+      </div>
+      
+      <div class="main-content">
+        <div class="section" id="overview">
+          <h2>WAS Network – Operations & Platform Infrastructure</h2>
+          <p>The was.network domain serves as the backbone of the World Archive System, housing internal operations, monitoring, and platform infrastructure components. It's designed for system administrators and operations teams to manage and monitor the health of the entire system.</p>
+          
+          <h3>Purpose</h3>
+          <p>was.network provides a secure, central location for all operational and infrastructure services that power the World Archive System. Access to these services is restricted to authorized personnel only.</p>
+        </div>
+        
+        <div class="section" id="monitoring">
+          <h2>Monitoring Stack</h2>
+          <p>WAS utilizes a comprehensive monitoring solution to ensure system health and performance:</p>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Tool</th>
+                <th>Endpoint</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Metrics</td>
+                <td>Prometheus</td>
+                <td><code>/metrics</code></td>
+              </tr>
+              <tr>
+                <td>Dashboards</td>
+                <td>Grafana</td>
+                <td><code>grafana.was.network</code></td>
+              </tr>
+              <tr>
+                <td>Logs</td>
+                <td>Loki</td>
+                <td><code>loki.was.network</code></td>
+              </tr>
+              <tr>
+                <td>Traces</td>
+                <td>Tempo</td>
+                <td>Integrated with Grafana</td>
+              </tr>
+              <tr>
+                <td>Alerts</td>
+                <td>UptimeRobot + PagerDuty</td>
+                <td>2-minute intervals</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h3>Telemetry Collection</h3>
+          <p>All services in the WAS ecosystem ship telemetry data using OpenTelemetry:</p>
+          <ul>
+            <li>Metrics are collected via Prometheus endpoints</li>
+            <li>Logs are aggregated in Loki</li>
+            <li>Distributed traces are sent to Tempo</li>
+            <li>Envoy sidecars capture service mesh telemetry</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="infrastructure">
+          <h2>Infrastructure-as-Code</h2>
+          <p>WAS infrastructure is fully managed through infrastructure as code:</p>
+          
+          <h3>Key Components</h3>
+          <ul>
+            <li><strong>Terraform:</strong> Modules forked from HashiCorp reference for provisioning cloud resources</li>
+            <li><strong>Secrets Management:</strong> Encrypted with SOPS (age)</li>
+            <li><strong>Server Provisioning:</strong> Ansible bootstrap for VPS nodes</li>
+            <li><strong>CI/CD Gates:</strong>
+              <ul>
+                <li>Trivy scan for vulnerabilities (fail if CVE >7.0)</li>
+                <li>Cosign verification for container provenance</li>
+                <li>OTLP traces for deploy steps</li>
+                <li>Contract tests for backward compatibility</li>
+              </ul>
+            </li>
+          </ul>
+          
+          <h3>Golden Path Template</h3>
+          <p>Each new micro-service repository inherits standardized components:</p>
+          <ul>
+            <li>Dockerfile</li>
+            <li>Helm chart</li>
+            <li>Protocol buffer contract tests</li>
+            <li>Security scanning (Trivy)</li>
+            <li>Signing (Cosign)</li>
+            <li>Documentation (Hugo)</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="mesh">
+          <h2>Service Mesh</h2>
+          <p>WAS uses a service mesh architecture to enable secure communication between services:</p>
+          
+          <h3>Components</h3>
+          <ul>
+            <li><strong>Mesh Technology:</strong> Istio/Linkerd with Envoy sidecars</li>
+            <li><strong>Security:</strong> mTLS for all service-to-service communication</li>
+            <li><strong>Service Discovery:</strong> DNS-based (<code>*.svc.was.network</code>)</li>
+            <li><strong>Protocol:</strong> gRPC with protocol buffers for internal APIs</li>
+          </ul>
+          
+          <h3>Micro-service Communication</h3>
+          <p>The service mesh facilitates communication between the following service groups:</p>
+          <ul>
+            <li>Ingestion agent fleet (Harvester/Extractor/Validator/etc.)</li>
+            <li>Search Gateway services</li>
+            <li>Graph services</li>
+            <li>Studio backend services</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="security">
+          <h2>Security Practices</h2>
+          <p>Security is a core principle of the WAS network infrastructure:</p>
+          
+          <h3>Key Security Measures</h3>
+          <ul>
+            <li><strong>Container Security:</strong> Extractors run under gVisor/Firecracker isolation</li>
+            <li><strong>Image Registry:</strong> Internal Harbor registry at <code>registry.was.network</code></li>
+            <li><strong>Signing:</strong> All container images signed with Cosign</li>
+            <li><strong>Versioning:</strong> Subject names are versioned for parallel migrations</li>
+            <li><strong>Authentication:</strong> Short-lived JWTs for service access</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="storage">
+          <h2>Storage Core</h2>
+          <p>The Storage Core component provides the distributed storage layer for WAS:</p>
+          
+          <h3>Cluster Topology</h3>
+          <ul>
+            <li>3 initial VPS nodes (2 vCPU, 4 GB) with Raft consensus</li>
+            <li>Private network with swarm key (no public bootstrappers)</li>
+            <li>Replication factor: 3 (min = max) for every pin</li>
+          </ul>
+          
+          <h3>Cold Backup Strategy</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Tool</th>
+                <th>Frequency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CAR export</td>
+                <td><code>ipfs-cluster-ctl pin export</code></td>
+                <td>Nightly</td>
+              </tr>
+              <tr>
+                <td>Filecoin deals</td>
+                <td>Estuary.tech umbrella bucket</td>
+                <td>Weekly</td>
+              </tr>
+              <tr>
+                <td>R2 snapshot</td>
+                <td><code>rclone sync</code></td>
+                <td>Weekly</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h3>Metrics & Health Checks</h3>
+          <ul>
+            <li>Grafana dashboards for pin count and peer lag</li>
+            <li>UptimeRobot HTTP + ICMP monitors per node</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="dr">
+          <h2>Disaster Recovery</h2>
+          <p>WAS maintains robust disaster recovery procedures:</p>
+          
+          <h3>Recovery Plan</h3>
+          <ul>
+            <li>Offline copy of <code>swarm.key</code>, <code>cluster_secret</code>, and CAR snapshots</li>
+            <li>Shamir 3-of-5 secret sharing among board members</li>
+            <li>Detailed restore procedures documented</li>
+            <li>Monthly restore drills using CAR snapshots</li>
+          </ul>
+          
+          <h3>Cost & Carbon Tracking</h3>
+          <ul>
+            <li>Tagged R2 bandwidth and storage for cost allocation</li>
+            <li>Carbon emissions estimates using cloud PUE factors</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 
